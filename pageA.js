@@ -1,7 +1,6 @@
 let request = require("request");
 let fs= require("fs");
 let cheerio= require("cheerio");
-const { connect } = require("http2");
 
 function pageA(link){
     request(link,cb);
@@ -32,14 +31,16 @@ function parseData(html){
     // console.log(content);
 
 for(let i=0 ; i<content.length ; i++){
-    let teamName = ch(content[i]).find("p").text();
-    // teamName = teamName.split("");
-    fs.writeFileSync("./home.txt",teamName);
-        // console.log(teamName);
-
+    let headingTag = ch(content[i]).find("h2 .mw-headline").text()+"";
+    let para = ch(content[i]).find("p, h2").text();
+    // teamName = teamName.split("history");
+    const result =headingTag.split(/(?=[A-Z])/);
+    console.log(result);
+    fs.writeFileSync("./home.txt",para);
 }
 
 }
+
 
 
 module.exports = pageA;
